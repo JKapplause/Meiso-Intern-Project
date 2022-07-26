@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".OnboardingScreenFragment">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/onboardingViewPager"
+        android:layout_width="match_parent"
+        android:background="@drawable/view_pager_background"
+        android:padding="30dp"
+        app:layout_constraintBottom_toTopOf="@id/button_start"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints"
+        android:layout_height="0dp"
+        />
+
+    <me.relex.circleindicator.CircleIndicator3
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        app:ci_drawable="@drawable/indicator_active"
+        android:layout_marginBottom="75dp"
+        android:paddingRight="220dp"
+        app:ci_drawable_unselected="@color/custom_color_indicator_empty"
+        android:layout_alignParentBottom = "true"
+        app:layout_constraintBottom_toTopOf="@id/button_start"
+        tools:ignore="MissingConstraints" />
+
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_start"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/custom_color_background"
+        android:drawableRight="@drawable/ic_right"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingStart="30dp"
+        android:text="Start Now"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText,MissingConstraints,UseCompatTextViewDrawableXml" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
