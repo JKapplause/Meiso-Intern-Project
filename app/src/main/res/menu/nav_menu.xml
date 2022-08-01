@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group>
         <item
-            android:id="@+id/register"
-            android:title="@string/uye_ol"
+            android:id="@+id/logout"
+            android:title="@string/cikis_yap"
             />
-        <item
-            android:id="@+id/signIn"
-            android:title="@string/giris_yap"
-
-            />
-    </group>
-
-
 </menu>

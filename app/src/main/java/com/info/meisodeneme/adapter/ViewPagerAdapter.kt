@@ -2,9 +2,9 @@ package com.info.meisodeneme.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.info.meisodeneme.fragments.RegisterFragment
-import com.info.meisodeneme.fragments.SignInFragment
-import com.info.meisodeneme.fragments.SliderFragment
+import com.info.meisodeneme.view.RegisterFragment
+import com.info.meisodeneme.view.SignInFragment
+import com.info.meisodeneme.view.SliderFragment
 
 
 class ViewPagerAdapter(activity: SliderFragment, private val tabCount: Int): FragmentStateAdapter(activity){
