@@ -1,4 +1,4 @@
-package com.info.meisodeneme
+package com.info.meisodeneme.view
 
 
 import android.os.Bundle
@@ -7,23 +7,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.google.firebase.auth.FirebaseAuth
+import com.info.meisodeneme.OnboardingItem
+import com.info.meisodeneme.R
 import com.info.meisodeneme.adapter.OnboardingItemAdapter
-import com.info.meisodeneme.fragments.RegisterFragment
 import kotlinx.android.synthetic.main.fragment_onboarding_screen.*
 import me.relex.circleindicator.CircleIndicator3
 
 
 class OnboardingScreenFragment : Fragment() {
     private lateinit var onboardingItemAdapter: OnboardingItemAdapter
-
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        auth = FirebaseAuth.getInstance()
+        val last = auth.currentUser
+        if(last != null) {
+            val action = OnboardingScreenFragmentDirections.actionOnboardingScreenFragmentToHomeFragment()
+            findNavController().navigate(action)
 
-
+        }
        }
 
     override fun onCreateView(

@@ -14,5 +14,12 @@
     <string name="g_r_yap" />
     <string name="giris_yap">GİRİŞ YAP</string>
     <string name="uye_ol">ÜYE OL</string>
+    <string name="sign_giris">GİRİŞ</string>
+    <string name="cikis_yap">Çıkış Yap</string>
+    <string name="logout">Logout</string>
+    <string name="SITE_KEY" />
+    <string name="ye_ol_butonuna_basarak_mobven_yelik_s_zle_mesi_ni_ki_iselle_tirilmi_pazarlamaya_ili_kin_a_k_r_za_metni_ni_yurt_d_na_aktar_ma_ili_kin_a_k_r_za_metni_ni_okudu_unuzu_ve_kabul_etti_inizi_onayl_yorsunuz">“Üye Ol” butonuna basarak Mobven Üyelik Sözleşmesi’ni, kişiselleştirilmiş pazarlamaya ilişkin Açık Rıza Metni’ni, yurt dışına aktarıma ilişkin Açık Rıza Metni’ni okuduğunuzu ve kabul ettiğinizi onaylıyorsunuz.</string>
+    <string name="leti_im_bilgilerinizin_duyuru_yenilikler_reklam_promosyon_vb_ticari_elektronik_ileti_g_nderilmek_zere_i_lenmesi_ve_bu_ama_la_kullan_lmas_saklanmas_ve_ticari_elektronik_ileti_g_nderilmesi_ve_bu_g_nderimin_sa_lanmas_i_in_defactofit_in_hizmet_ald_nc_ki_ilerle_payla_mas_i_in_elektronik_ticari_leti_bilgilendirme_metnini_okudu_unuzu_ve_kabul_etti_inizi_onayl_yorsunuz">İletişim bilgilerinizin duyuru, yenilikler, reklam promosyon vb. ticari elektronik ileti gönderilmek üzere işlenmesi ve bu amaçla kullanılması, saklanması ve ticari elektronik ileti gönderilmesi ve bu gönderimin sağlanması için DeFactoFit’in hizmet aldığı üçüncü kişilerle paylaşması için Elektronik Ticari İleti Bilgilendirme metnini okuduğunuzu ve kabul ettiğinizi onaylıyorsunuz.</string>
+    <string name="ye_olmak_i_in_s_zle_meleri_onaylaman_z_gerekmektedir">Üye olmak için sözleşmeleri onaylamanız gerekmektedir.</string>
 
 </resources>

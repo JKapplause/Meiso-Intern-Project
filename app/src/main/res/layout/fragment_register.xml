@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.RegisterFragment">
+    tools:context=".view.RegisterFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="MissingConstraints">
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signup_name"
@@ -106,41 +107,70 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/signup_recaptcha"
+           android:id="@+id/signup_recaptchaText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginTop="20dp"
+
             app:boxBackgroundMode="outline"
             app:startIconCheckable="true"
             app:layout_constraintTop_toBottomOf="@id/signup_password"
             >
             <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/signup_recaptcha"
                 android:layout_width="fill_parent"
+                android:drawableEnd="@drawable/rsz"
                 android:layout_height="wrap_content"
                 android:text="@string/i_m_not_a_robot"
                 android:textSize="20sp"
-
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/register_checkbox1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/signup_recaptchaText"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="200dp"
+            android:checked="false"
+            android:gravity="start"
+            android:text="@string/ye_ol_butonuna_basarak_mobven_yelik_s_zle_mesi_ni_ki_iselle_tirilmi_pazarlamaya_ili_kin_a_k_r_za_metni_ni_yurt_d_na_aktar_ma_ili_kin_a_k_r_za_metni_ni_okudu_unuzu_ve_kabul_etti_inizi_onayl_yorsunuz"
+            />
 
+<ScrollView
+    android:id="@+id/register_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="40dp"
+    app:layout_constraintTop_toBottomOf="@+id/register_checkbox1"
+    >
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/register_checkbox2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="@string/leti_im_bilgilerinizin_duyuru_yenilikler_reklam_promosyon_vb_ticari_elektronik_ileti_g_nderilmek_zere_i_lenmesi_ve_bu_ama_la_kullan_lmas_saklanmas_ve_ticari_elektronik_ileti_g_nderilmesi_ve_bu_g_nderimin_sa_lanmas_i_in_defactofit_in_hizmet_ald_nc_ki_ilerle_payla_mas_i_in_elektronik_ticari_leti_bilgilendirme_metnini_okudu_unuzu_ve_kabul_etti_inizi_onayl_yorsunuz"
+        />
+</ScrollView>
 
-
-        <Button
+     <Button
             android:id="@+id/signup_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="156dp"
             android:layout_marginEnd="156dp"
             android:backgroundTint="@color/black"
+            android:layout_marginTop="5dp"
             android:text="@string/uye_ol"
             android:theme="@style/Button.White"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signup_recaptcha"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/register_scroll"
+            tools:ignore="NotSibling" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

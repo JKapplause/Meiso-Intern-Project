@@ -34,6 +34,7 @@ class OnboardingItemAdapter(private val onboardingItem: List<OnboardingItem>) :
                 false
             )
         )
+
     }
 
     override fun onBindViewHolder(holder: OnboardingItemViewHolder, position: Int) {

@@ -7,12 +7,19 @@
     app:startDestination="@id/onboardingScreenFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.info.meisodeneme.fragments.HomeFragment"
+        android:name="com.info.meisodeneme.view.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_sliderFragment"
+            app:destination="@id/sliderFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mediaDetailFragment"
+            app:destination="@id/mediaDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/sliderFragment"
-        android:name="com.info.meisodeneme.fragments.SliderFragment"
+        android:name="com.info.meisodeneme.view.SliderFragment"
         android:label="fragment_slider"
         tools:layout="@layout/fragment_slider" >
         <action
@@ -21,11 +28,19 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingScreenFragment"
-        android:name="com.info.meisodeneme.OnboardingScreenFragment"
+        android:name="com.info.meisodeneme.view.OnboardingScreenFragment"
         android:label="fragment_onboarding_screen"
         tools:layout="@layout/fragment_onboarding_screen" >
         <action
             android:id="@+id/action_onboardingScreenFragment_to_sliderFragment"
             app:destination="@id/sliderFragment" />
+        <action
+            android:id="@+id/action_onboardingScreenFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mediaDetailFragment"
+        android:name="com.info.meisodeneme.view.MediaDetailFragment"
+        android:label="fragment_media_detail"
+        tools:layout="@layout/fragment_media_detail" />
 </navigation>
