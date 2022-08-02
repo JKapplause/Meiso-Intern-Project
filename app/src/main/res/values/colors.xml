@@ -25,4 +25,5 @@
     <color name="custom_color_back">#3C4D87</color>
 
     <color name="custom_transparent">#50000000</color>
+    <color name="custom_bottom_media">#1f1f1f</color>
 </resources>

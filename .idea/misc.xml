@@ -3,9 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/ic_baseline_android_24.xml" value="0.2085" />
+        <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/ic_baseline_circle_24.xml" value="0.2085" />
         <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.181" />
+        <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/ic_media_back.xml" value="0.2085" />
+        <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/ic_pause_button.xml" value="0.2085" />
+        <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/ic_play_button.xml" value="0.2085" />
+        <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/ic_right.xml" value="0.2085" />
         <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/main_header.xml" value="0.181" />
         <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/radius_box.xml" value="0.181" />
+        <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/radius_transparent_box.xml" value="0.2085" />
         <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/round_outline.xml" value="0.2085" />
         <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/rounded_edt.xml" value="0.2085" />
         <entry key="..\:/Users/ismail/MeisoDeneme/app/src/main/res/drawable/view_pager_background.xml" value="0.181" />
