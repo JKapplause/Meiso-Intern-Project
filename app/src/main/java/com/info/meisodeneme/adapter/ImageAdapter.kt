@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.info.meisodeneme.model.DataModel
 import com.info.meisodeneme.R
+import com.info.meisodeneme.view.HomeFragmentDirections
 
 class ImageAdapter(var context : Context) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
@@ -44,6 +46,11 @@ class ImageAdapter(var context : Context) : RecyclerView.Adapter<ImageAdapter.Vi
         holder.desc.text = data.desc
 
         holder.image.setImageResource(data.image)
+
+        holder.itemView.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun getItemCount() = dataList.size

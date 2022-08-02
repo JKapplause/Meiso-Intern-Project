@@ -11,10 +11,13 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import android.widget.Toast.makeText
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.info.meisodeneme.R
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlin.system.exitProcess
 
 
 class SignInFragment : Fragment() {
@@ -46,16 +49,13 @@ class SignInFragment : Fragment() {
 
         val btn_signin = view.findViewById<Button>(R.id.signin_button)
         val signin_remember = signin_checkbox.isChecked
-
         val currentUser = auth.currentUser
-
-
 
 
             btn_signin?.setOnClickListener {
                 val mail = signin_emailET.text.toString()
                 val pass = signin_passwordET.text.toString()
-                if(mail.isNotEmpty() && pass.isNotEmpty()) {
+                if (mail.isNotEmpty() && pass.isNotEmpty()) {
 
                     auth.signInWithEmailAndPassword(
                         signin_emailET.text.toString(),
@@ -64,19 +64,25 @@ class SignInFragment : Fragment() {
                         if (task.isSuccessful) {
                             val last = auth.currentUser?.email.toString()
                             makeText(getActivity(), "Welcome: ${last}", Toast.LENGTH_LONG).show()
-                            val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
+                            val action =
+                                SliderFragmentDirections.actionSliderFragmentToHomeFragment()
                             findNavController(it).navigate(action)
-
                         }
                     }.addOnFailureListener { exception ->
-                        makeText(getActivity(), exception.localizedMessage, Toast.LENGTH_LONG).show()
+                        makeText(
+                            getActivity(),
+                            exception.localizedMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
 
-                }else if(mail.isEmpty() || pass.isEmpty()) {
+                } else if (mail.isEmpty() || pass.isEmpty()) {
                     showCustomToast()
                 }
+            }
 
-                }
+
+
                 }
 
     private fun showCustomToast() {

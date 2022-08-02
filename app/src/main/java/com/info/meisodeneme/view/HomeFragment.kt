@@ -27,9 +27,11 @@ class HomeFragment : Fragment() {
     private lateinit var rvList:RecyclerView
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
+
 
     }
 
@@ -39,6 +41,8 @@ class HomeFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
+
+
 
 
 
@@ -53,6 +57,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+
+
+
+        // Vertical Screen
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = GridLayoutManager(getActivity()?.getApplicationContext(),2)
         imageAdapter = ImageAdapter(requireActivity().getApplicationContext())
@@ -67,7 +75,7 @@ class HomeFragment : Fragment() {
 
         imageAdapter.setDataList(dataList)
 
-
+        //Horizontal Screen
         rvList = view.findViewById(R.id.rvList)
         rvList.setHasFixedSize(true)
         rvList.layoutManager = LinearLayoutManager(getActivity()?.getApplicationContext(),RecyclerView.HORIZONTAL,false)
@@ -76,16 +84,6 @@ class HomeFragment : Fragment() {
         customAdapter = CustomAdapter(cardList)
         rvList.adapter = customAdapter
 
-
-
-
-        /*val data : MutableList<DataObject> = ArrayList()
-        dataListHoriz.add(DataObject("Sleep Well","A dreamy sleep",R.drawable.home_1))
-        dataListHoriz.add(DataObject("Deep Sleep","Restful nights",R.drawable.home_2))
-        dataListHoriz.add(DataObject("Bedtime Imagery","Surrender to Sleep",R.drawable.home_3r))
-        dataListHoriz.add(DataObject("Peaceful Sleep","Meet your inner self",R.drawable.home_4))
-
-        val layoutManager = LinearLayoutManager(requireActivity().getApplicationContext(),LinearLayoutManager.HORIZONTAL, false)*/
 
         val logout_btn =view.findViewById<Button>(R.id.logout_button)
         logout_btn.setOnClickListener { task->
@@ -98,5 +96,11 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+
+
+
+
 }
+
 

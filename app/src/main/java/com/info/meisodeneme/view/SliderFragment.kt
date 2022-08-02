@@ -13,45 +13,10 @@ import kotlinx.android.synthetic.main.fragment_slider.*
 
 
 class SliderFragment : Fragment() {
-    //private lateinit var googleApiClient: GoogleApiClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-     /*   googleApiClient = GoogleApiClient.Builder(requireContext())
-            .addApi(SafetyNet.API)
-            .addConnectionCallbacks(this)
-            .build()
-
-        val signup_recaptcha = view?.findViewById<CheckBox>(R.id.signup_recaptcha)
-
-        googleApiClient.connect()
-        signup_recaptcha?.setOnClickListener {
-            if (signup_recaptcha.isChecked) {
-                SafetyNet.SafetyNetApi.verifyWithRecaptcha(googleApiClient,getString(R.string.SITE_KEY))
-                    .setResultCallback { object :
-                        ResultCallbacks<SafetyNetApi.RecaptchaTokenResult>(){
-                        override fun onSuccess(status: SafetyNetApi.RecaptchaTokenResult) {
-                            val status: Status = status.status
-                            if (status.isSuccess) {
-                                Toast.makeText(getActivity()?.getApplicationContext(), "verify", Toast.LENGTH_LONG).show()
-                                signup_recaptcha.setTextColor(Color.GREEN)
-                            }
-                            else{
-                                signup_recaptcha.setTextColor(Color.BLACK)
-
-
-                            }
-                        }
-
-                        override fun onFailure(p0: Status) {
-                            Toast.makeText(getActivity()?.getApplicationContext(), p0.statusMessage, Toast.LENGTH_LONG).show()
-
-                        }
-                    } }
-            }
-        }*/
-
 
     }
 
@@ -73,7 +38,7 @@ class SliderFragment : Fragment() {
     }
 
 
-    private fun setUpTabBar() {
+   private fun setUpTabBar() {
         val adapter = ViewPagerAdapter(this,tab_layout.tabCount)
         view_pager2.adapter = adapter
 
@@ -97,12 +62,6 @@ class SliderFragment : Fragment() {
             }
         })
     }
-   /* override fun onConnected(p0: Bundle?) {
-        Toast.makeText(getActivity()?.getApplicationContext(), p0.toString(), Toast.LENGTH_LONG).show()
-    }
 
-    override fun onConnectionSuspended(p0: Int) {
-        Toast.makeText(getActivity()?.getApplicationContext(), p0, Toast.LENGTH_LONG).show()
-    }*/
 }
 
