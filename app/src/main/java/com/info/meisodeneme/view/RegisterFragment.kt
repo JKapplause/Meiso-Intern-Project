@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager.TAG
@@ -23,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.info.meisodeneme.R
+import com.info.meisodeneme.databinding.FragmentRegisterBinding
 import com.info.meisodeneme.model.User
 import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
@@ -33,11 +33,15 @@ import java.util.concurrent.Executor
 
 class RegisterFragment : Fragment() {
 
+
     private lateinit var auth: FirebaseAuth
     private val userCollectionRef = Firebase.firestore.collection("users")
+    private var _binding : FragmentRegisterBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         auth = FirebaseAuth.getInstance()
 
 
@@ -70,7 +74,8 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_register, container, false)
+        _binding = FragmentRegisterBinding.inflate(inflater,container,false)
+        return binding.root
 
     }
 
@@ -78,12 +83,7 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var currentUser = auth.currentUser
-
-
-
-
-        val signup_button = view.findViewById<Button>(R.id.signup_button)
+        val signup_button = binding.signupButton
 
         signup_button.setOnClickListener {
             val email = signup_mailET.text.toString()
@@ -99,7 +99,7 @@ class RegisterFragment : Fragment() {
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
 
-                                    saveUser(User(name, email, surname,password))
+                                    saveUser(User(name, email, surname, password))
                                     val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
                                     findNavController(it).navigate(action)
 

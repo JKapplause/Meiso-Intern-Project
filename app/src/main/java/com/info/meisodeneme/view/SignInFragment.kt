@@ -16,6 +16,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.info.meisodeneme.R
+import com.info.meisodeneme.databinding.FragmentSignInBinding
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlin.system.exitProcess
 
@@ -23,6 +24,8 @@ import kotlin.system.exitProcess
 class SignInFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
+    private var _binding : FragmentSignInBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,50 +39,42 @@ class SignInFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_sign_in, container, false)
-
-
-
+        _binding = FragmentSignInBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val btn_signin = binding.signinButton
+        btn_signin.setOnClickListener {
+            val mail = signin_emailET.text.toString()
+            val pass = signin_passwordET.text.toString()
+            if (mail.isNotEmpty() && pass.isNotEmpty()) {
 
-        val btn_signin = view.findViewById<Button>(R.id.signin_button)
-        val signin_remember = signin_checkbox.isChecked
-        val currentUser = auth.currentUser
-
-
-            btn_signin?.setOnClickListener {
-                val mail = signin_emailET.text.toString()
-                val pass = signin_passwordET.text.toString()
-                if (mail.isNotEmpty() && pass.isNotEmpty()) {
-
-                    auth.signInWithEmailAndPassword(
-                        signin_emailET.text.toString(),
-                        signin_passwordET.text.toString()
-                    ).addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val last = auth.currentUser?.email.toString()
-                            makeText(getActivity(), "Welcome: ${last}", Toast.LENGTH_LONG).show()
-                            val action =
-                                SliderFragmentDirections.actionSliderFragmentToHomeFragment()
-                            findNavController(it).navigate(action)
-                        }
-                    }.addOnFailureListener { exception ->
-                        makeText(
-                            getActivity(),
-                            exception.localizedMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
+                auth.signInWithEmailAndPassword(
+                    signin_emailET.text.toString(),
+                    signin_passwordET.text.toString()
+                ).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val last = auth.currentUser?.email.toString()
+                        makeText(getActivity(), "Welcome: ${last}", Toast.LENGTH_LONG).show()
+                        val action =
+                            SliderFragmentDirections.actionSliderFragmentToHomeFragment()
+                        findNavController(it).navigate(action)
                     }
-
-                } else if (mail.isEmpty() || pass.isEmpty()) {
-                    showCustomToast()
+                }.addOnFailureListener { exception ->
+                    makeText(
+                        getActivity(),
+                        exception.localizedMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
+
+            } else if (mail.isEmpty() || pass.isEmpty()) {
+                showCustomToast()
             }
+        }
 
 
 

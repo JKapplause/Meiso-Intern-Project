@@ -1,50 +1,46 @@
-package com.info.meisodeneme.adapter
 
-import android.content.Context
-import android.media.Image
+ package com.info.meisodeneme.adapter
+
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
-import androidx.cardview.widget.CardView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.info.meisodeneme.R
+import com.info.meisodeneme.databinding.HorizontalLayoutBinding
 import com.info.meisodeneme.model.DataModel
-import com.info.meisodeneme.model.DataObject
 import com.info.meisodeneme.view.HomeFragmentDirections
-import kotlinx.android.synthetic.main.horizontal_layout.view.*
 
-class CustomAdapter(private val cardlist :List<DataObject>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
-    class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
 
-        val horizontal_title : TextView = itemView.findViewById(R.id.horizontal_title)
-        val horizontal_desc : TextView = itemView.findViewById(R.id.horizontal_desc)
-        val horizontal_image : ImageView = itemView.findViewById(R.id.horizontal_image)
+ class CustomAdapter(val cardlist :List<DataModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>(), ClickListener {
+     class ViewHolder (var binding : HorizontalLayoutBinding ) : RecyclerView.ViewHolder(binding.root){
+         fun bind(item: DataModel) {
+             binding.selectH = item
+
+         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.horizontal_layout, parent,false)
-        return ViewHolder(view)
+     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+         val listItemViewBinding = HorizontalLayoutBinding.inflate(inflater,parent,false)
+         return ViewHolder(listItemViewBinding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val datah = cardlist[position]
-        holder.horizontal_title.text = datah.horizontal_titlee
-        holder.horizontal_desc.text = datah.horizontal_descc
-        holder.horizontal_image.setImageResource(datah.horizontal_imagee)
+     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+         holder.bind(cardlist[position])
+         holder.binding.clickH = this
 
-        holder.itemView.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
-    }
+     }
 
-    override fun getItemCount(): Int {
-            return cardlist.size
-    }
+     override fun getItemCount(): Int {
+         return cardlist.size
+     }
+
+     override fun onCardClick(v: View) {
+
+         val action = HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment()
+         Navigation.findNavController(v).navigate(action)
+     }
 
 
-}
+ }
