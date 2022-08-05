@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -14,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.info.meisodeneme.OnboardingItem
 import com.info.meisodeneme.R
 import com.info.meisodeneme.adapter.OnboardingItemAdapter
+import com.info.meisodeneme.databinding.FragmentOnboardingScreenBinding
+import com.info.meisodeneme.databinding.OnboardingItemContainerBinding
 import kotlinx.android.synthetic.main.fragment_onboarding_screen.*
 import me.relex.circleindicator.CircleIndicator3
 
@@ -21,8 +24,15 @@ import me.relex.circleindicator.CircleIndicator3
 class OnboardingScreenFragment : Fragment() {
     private lateinit var onboardingItemAdapter: OnboardingItemAdapter
     private lateinit var auth: FirebaseAuth
+    private var _binding : FragmentOnboardingScreenBinding? = null
+
+    private val binding get() = _binding!!
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         auth = FirebaseAuth.getInstance()
         val last = auth.currentUser
@@ -36,9 +46,11 @@ class OnboardingScreenFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        return inflater.inflate(R.layout.fragment_onboarding_screen, container, false)
+        _binding = FragmentOnboardingScreenBinding.inflate(inflater, container, false)
+
+        return binding.root
 
 
     }
@@ -47,11 +59,12 @@ class OnboardingScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setOnboardingItems()
 
-        var indicator3 = view?.findViewById<CircleIndicator3>(R.id.indicator)
-        indicator3?.setViewPager(onboardingViewPager)
 
-        val btn = view?.findViewById<Button>(R.id.button_start)
-        btn?.setOnClickListener {
+        var indicator3 = binding.indicator
+        indicator3.setViewPager(onboardingViewPager)
+
+        val btn = binding.buttonStart
+        btn.setOnClickListener {
             val action =OnboardingScreenFragmentDirections.actionOnboardingScreenFragmentToSliderFragment()
             Navigation.findNavController(it).navigate(action)
         }
@@ -85,7 +98,7 @@ class OnboardingScreenFragment : Fragment() {
             )
         )
 
-        val onboardingViewPager = view?.findViewById<ViewPager2>(R.id.onboardingViewPager)
+        val onboardingViewPager = binding.onboardingViewPager
         onboardingViewPager?.adapter = onboardingItemAdapter
 
     }
