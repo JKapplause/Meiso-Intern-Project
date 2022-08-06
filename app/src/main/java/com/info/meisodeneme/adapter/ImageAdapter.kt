@@ -15,11 +15,14 @@ import com.info.meisodeneme.model.DataModel
 
 import com.info.meisodeneme.view.HomeFragmentDirections
 
-class ImageAdapter(var dataList: List<DataModel>) : RecyclerView.Adapter<ImageAdapter.ViewHolder>(), ClickListener {
+class ImageAdapter(var dataList: List<DataModel>,val onClick :(DataModel)->Unit) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
-    class ViewHolder(var binding : ImageLayoutBinding) : RecyclerView.ViewHolder(binding.root){
+   inner class ViewHolder(var binding : ImageLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: DataModel) {
             binding.selectV = item
+            binding.LinearLayoutVertical.setOnClickListener {
+                onClick.invoke(item)
+            }
         }
 
     }
@@ -32,15 +35,11 @@ class ImageAdapter(var dataList: List<DataModel>) : RecyclerView.Adapter<ImageAd
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
-        holder.binding.clickV = this
-
+        holder.binding.LinearLayoutVertical
     }
 
     override fun getItemCount() = dataList.size
-    override fun onCardClick(v: View) {
-        val action = HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment()
-        Navigation.findNavController(v).navigate(action)
-    }
+
 
 
 }

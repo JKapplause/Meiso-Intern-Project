@@ -2,7 +2,6 @@ package com.info.meisodeneme.view
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,8 +14,6 @@ import com.info.meisodeneme.adapter.CustomAdapter
 import com.info.meisodeneme.adapter.ImageAdapter
 import com.info.meisodeneme.databinding.FragmentHomeBinding
 
-
-
 class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var recyclerView: RecyclerView
@@ -28,62 +25,50 @@ class HomeFragment : Fragment() {
     private var _binding : FragmentHomeBinding?=null
     private val binding get() = _binding!!
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
-
 
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-
-
-
-
     private fun addDataToList() {
         with(cardList) {
-            add(DataModel("Sleep Well","A dreamy sleep",R.drawable.home_1))
-            add(DataModel("Deep Sleep","Restful nights",R.drawable.home_2))
-            add(DataModel("Bedtime Imagery","Surrender to Sleep",R.drawable.home_3r))
-            add(DataModel("Peaceful Sleep","Meet your inner self",R.drawable.home_4))
+            add(DataModel("Sleep Well","A dreamy sleep",R.drawable.home_1,R.drawable.hback_1))
+            add(DataModel("Deep Sleep","Restful nights",R.drawable.home_2, R.drawable.hback_2))
+            add(DataModel("Bedtime Imagery","Surrender to Sleep",R.drawable.home_3r,R.drawable.hback_3))
+            add(DataModel("Peaceful Sleep","Meet your inner self",R.drawable.home_4,R.drawable.hback_4))
         }
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
-
-
         // Vertical Screen
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = GridLayoutManager(getActivity()?.getApplicationContext(),2)
-        imageAdapter = ImageAdapter(dataList)
+        imageAdapter = ImageAdapter(dataList){
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment(it))
+        }
         recyclerView.adapter = imageAdapter
 
         with(dataList) {
-            add(DataModel("Falling Leaves","Cum sociis natoque ",R.drawable.vertical_1))
-            add(DataModel("Cozy Campfire","Donec pede justo",R.drawable.vertical_2))
-            add(DataModel("Night Call","Curabitur ullamcorper",R.drawable.vertical_3))
-            add(DataModel("The Flower Garden ","Maecenas tempus",R.drawable.vertical_4))
-            add(DataModel("The Time Machine","Etiam sit amet orci",R.drawable.vertical_5))
-            add(DataModel("1001 Nights","Sed fringilla mauris sit",R.drawable.vertical_6))
+            add(DataModel("Falling Leaves","Cum sociis natoque ",R.drawable.vertical_1,R.drawable.vback_1))
+            add(DataModel("Cozy Campfire","Donec pede justo",R.drawable.vertical_2,R.drawable.vback_2))
+            add(DataModel("Night Call","Curabitur ullamcorper",R.drawable.vertical_3,R.drawable.vback_3))
+            add(DataModel("The Flower Garden ","Maecenas tempus",R.drawable.vertical_4,R.drawable.vback_4))
+            add(DataModel("The Time Machine","Etiam sit amet orci",R.drawable.vertical_5,R.drawable.vback_5))
+            add(DataModel("1001 Nights","Sed fringilla mauris sit",R.drawable.vertical_6,R.drawable.vback_6))
 
         }
-
-
 
         //Horizontal Screen
         rvList = binding.rvList
@@ -91,7 +76,9 @@ class HomeFragment : Fragment() {
         rvList.layoutManager = LinearLayoutManager(getActivity()?.getApplicationContext(),RecyclerView.HORIZONTAL,false)
         cardList = ArrayList()
         addDataToList()
-        customAdapter = CustomAdapter(cardList)
+        customAdapter = CustomAdapter(cardList) {
+          findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment(it))
+        }
         rvList.adapter = customAdapter
 
 
@@ -105,11 +92,6 @@ class HomeFragment : Fragment() {
 
         }
     }
-
-
-
-
-
 
 }
 

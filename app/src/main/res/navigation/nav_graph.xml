@@ -42,9 +42,13 @@
         android:id="@+id/mediaDetailFragment"
         android:name="com.info.meisodeneme.view.MeditationDetailFragment"
         android:label="fragment_media_detail"
-        tools:layout="@layout/fragment_meditation_detail" >
+        tools:layout="@layout/fragment_meditation_detail">
+
         <action
             android:id="@+id/action_mediaDetailFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <argument
+            android:name="ArgDataModel"
+            app:argType="com.info.meisodeneme.model.DataModel" />
     </fragment>
 </navigation>

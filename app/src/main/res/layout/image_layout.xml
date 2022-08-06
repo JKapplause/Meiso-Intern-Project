@@ -6,9 +6,6 @@
             name="selectV"
             type="com.info.meisodeneme.model.DataModel" />
 
-        <variable
-            name="clickV"
-            type="com.info.meisodeneme.adapter.ClickListener" />
     </data>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -30,7 +27,6 @@
         android:id="@+id/LinearLayoutVertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="@{clickV::onCardClick}"
         android:orientation="vertical">
 
 
