@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 
 import com.info.meisodeneme.R
 import com.info.meisodeneme.databinding.FragmentMeditationDetailBinding
@@ -18,6 +20,7 @@ import com.info.meisodeneme.model.HomeViewModel
 
 
 import kotlinx.android.synthetic.main.fragment_meditation_detail.*
+import kotlinx.android.synthetic.main.image_layout.*
 import java.text.DateFormat
 import java.util.*
 
@@ -25,29 +28,23 @@ class MeditationDetailFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var dataBinding: FragmentMeditationDetailBinding
-
+    private val args : MeditationDetailFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
     dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_meditation_detail,container,false)
     return dataBinding.root
-    //return inflater.inflate(R.layout.fragment_meditation_detail, container, false)
     }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //Instant DateTime
-
+        
         back_media.setOnClickListener {
             val action =
                 MeditationDetailFragmentDirections.actionMediaDetailFragmentToHomeFragment()
@@ -75,29 +72,22 @@ class MeditationDetailFragment : Fragment() {
             }
         }
 
-
-
-        //MediaViewModel / horiz
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-       // viewModel.getData()
+        viewModel.getData()
+        observeLiveData()
 
-        viewModel.LiveData.observe(viewLifecycleOwner) {
-            dataBinding.selectItem = it
-        }
-
-        //observeLiveData()
 
 
     }
-  /*  private fun observeLiveData() {
+   private fun observeLiveData() {
         viewModel.LiveData.observe(viewLifecycleOwner) {
             it?.let {
-                dataBinding.selectItem = it
+               dataBinding.selectItem = args.argDataModel
             }
 
         }
 
-    }*/
+    }
             }
 
 

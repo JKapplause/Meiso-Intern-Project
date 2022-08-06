@@ -2,20 +2,25 @@
  package com.info.meisodeneme.adapter
 
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.info.meisodeneme.databinding.HorizontalLayoutBinding
 import com.info.meisodeneme.model.DataModel
-import com.info.meisodeneme.view.HomeFragmentDirections
 
 
- class CustomAdapter(val cardlist :List<DataModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>(), ClickListener {
-     class ViewHolder (var binding : HorizontalLayoutBinding ) : RecyclerView.ViewHolder(binding.root){
-         fun bind(item: DataModel) {
+
+ class CustomAdapter(val cardlist :List<DataModel>,val onClick :(DataModel)->Unit) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+    inner class ViewHolder (var binding : HorizontalLayoutBinding ) : RecyclerView.ViewHolder(binding.root){
+
+         fun bind(item : DataModel) {
+
              binding.selectH = item
+             binding.horizontalCardView.setOnClickListener {
+                 onClick.invoke(item)
+
+             }
 
          }
     }
@@ -28,7 +33,6 @@ import com.info.meisodeneme.view.HomeFragmentDirections
 
      override fun onBindViewHolder(holder: ViewHolder, position: Int) {
          holder.bind(cardlist[position])
-         holder.binding.clickH = this
 
      }
 
@@ -36,11 +40,6 @@ import com.info.meisodeneme.view.HomeFragmentDirections
          return cardlist.size
      }
 
-     override fun onCardClick(v: View) {
-
-         val action = HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment()
-         Navigation.findNavController(v).navigate(action)
-     }
 
 
  }
