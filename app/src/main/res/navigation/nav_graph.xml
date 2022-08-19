@@ -34,9 +34,6 @@
         <action
             android:id="@+id/action_onboardingScreenFragment_to_sliderFragment"
             app:destination="@id/sliderFragment" />
-        <action
-            android:id="@+id/action_onboardingScreenFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/mediaDetailFragment"

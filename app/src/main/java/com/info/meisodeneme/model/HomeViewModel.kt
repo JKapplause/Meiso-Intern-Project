@@ -2,19 +2,16 @@ package com.info.meisodeneme.model
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.info.meisodeneme.R
-import com.info.meisodeneme.view.MeditationDetailFragment
-import com.info.meisodeneme.view.MeditationDetailFragmentArgs
 
 class HomeViewModel : ViewModel() {
     val LiveData = MutableLiveData<DataModel>()
+    //val Loading = MutableLiveData<Boolean>()
 
-
-    fun getData() {
-
-        val horiz = DataModel("hi","sel",R.drawable.home_1,R.drawable.hback_1)
-
+    fun getDatas() {
+        val horiz = DataModel("1", "night", "call", "night call", "ww.goog.com")
         LiveData.value = horiz
+
+        //Loading.value = true
     }
 
 }
