@@ -1,19 +1,13 @@
 package com.info.meisodeneme.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.info.meisodeneme.R
-import com.info.meisodeneme.databinding.HorizontalLayoutBinding
 import com.info.meisodeneme.databinding.ImageLayoutBinding
 import com.info.meisodeneme.model.DataModel
+import com.info.meisodeneme.util.downloadFromUrl
+import com.info.meisodeneme.util.placeholderProgressBar
 
-import com.info.meisodeneme.view.HomeFragmentDirections
 
 class ImageAdapter(var dataList: List<DataModel>,val onClick :(DataModel)->Unit) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
@@ -24,7 +18,6 @@ class ImageAdapter(var dataList: List<DataModel>,val onClick :(DataModel)->Unit)
                 onClick.invoke(item)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,11 +28,9 @@ class ImageAdapter(var dataList: List<DataModel>,val onClick :(DataModel)->Unit)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
-        holder.binding.LinearLayoutVertical
+        holder.binding.image.downloadFromUrl(dataList[position].image, placeholderProgressBar(holder.itemView.context))
     }
 
     override fun getItemCount() = dataList.size
-
-
 
 }

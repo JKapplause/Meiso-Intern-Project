@@ -1,98 +1,206 @@
 package com.info.meisodeneme.view
 
+
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.*
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager.TAG
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.info.meisodeneme.model.DataModel
-import com.info.meisodeneme.R
 import com.info.meisodeneme.adapter.CustomAdapter
 import com.info.meisodeneme.adapter.ImageAdapter
 import com.info.meisodeneme.databinding.FragmentHomeBinding
 
+import kotlin.system.exitProcess
+
 class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var imageAdapter: ImageAdapter
-    private var dataList = mutableListOf<DataModel>()
-    private lateinit var cardList: ArrayList<DataModel>
+    private var dataList :ArrayList<DataModel> = ArrayList()
+    private var cardArrayList: ArrayList<DataModel> = ArrayList()
     private lateinit var customAdapter: CustomAdapter
-    private lateinit var rvList:RecyclerView
-    private var _binding : FragmentHomeBinding?=null
-    private val binding get() = _binding!!
+    private lateinit var recyclerViewH: RecyclerView
+    private lateinit var _binding: FragmentHomeBinding
+    private val binding get() = _binding
+    private lateinit var db: FirebaseFirestore
+    private var backPressed = 0L
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = FirebaseAuth.getInstance()
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    private fun addDataToList() {
-        with(cardList) {
-            add(DataModel("Sleep Well","A dreamy sleep",R.drawable.home_1,R.drawable.hback_1))
-            add(DataModel("Deep Sleep","Restful nights",R.drawable.home_2, R.drawable.hback_2))
-            add(DataModel("Bedtime Imagery","Surrender to Sleep",R.drawable.home_3r,R.drawable.hback_3))
-            add(DataModel("Peaceful Sleep","Meet your inner self",R.drawable.home_4,R.drawable.hback_4))
-        }
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Vertical Screen
-        recyclerView = binding.recyclerView
-        recyclerView.layoutManager = GridLayoutManager(getActivity()?.getApplicationContext(),2)
-        imageAdapter = ImageAdapter(dataList){
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment(it))
-        }
-        recyclerView.adapter = imageAdapter
 
-        with(dataList) {
-            add(DataModel("Falling Leaves","Cum sociis natoque ",R.drawable.vertical_1,R.drawable.vback_1))
-            add(DataModel("Cozy Campfire","Donec pede justo",R.drawable.vertical_2,R.drawable.vback_2))
-            add(DataModel("Night Call","Curabitur ullamcorper",R.drawable.vertical_3,R.drawable.vback_3))
-            add(DataModel("The Flower Garden ","Maecenas tempus",R.drawable.vertical_4,R.drawable.vback_4))
-            add(DataModel("The Time Machine","Etiam sit amet orci",R.drawable.vertical_5,R.drawable.vback_5))
-            add(DataModel("1001 Nights","Sed fringilla mauris sit",R.drawable.vertical_6,R.drawable.vback_6))
-
-        }
-
-        //Horizontal Screen
-        rvList = binding.rvList
-        rvList.setHasFixedSize(true)
-        rvList.layoutManager = LinearLayoutManager(getActivity()?.getApplicationContext(),RecyclerView.HORIZONTAL,false)
-        cardList = ArrayList()
-        addDataToList()
-        customAdapter = CustomAdapter(cardList) {
-          findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment(it))
-        }
-        rvList.adapter = customAdapter
-
+        //Progressbar
+        //Loading()
+        // back press iyileştirilebilir
+        callBack()
 
         val logout_btn = binding.logoutButton
-        logout_btn.setOnClickListener { task->
-            if(logout_btn.isClickable) {
+        logout_btn.setOnClickListener {
+            if (logout_btn.isClickable) {
                 auth.signOut()
                 val action = HomeFragmentDirections.actionHomeFragmentToSliderFragment()
                 findNavController().navigate(action)
             }
-
         }
+        auth = Firebase.auth
+        db = Firebase.firestore
+
+        getDataAll()
+        horizontal()
+
+        getDataAllV()
+        vertical()
+
     }
 
-}
+    fun vertical() {
+        recyclerView = binding.recyclerView
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = GridLayoutManager(getActivity()?.getApplicationContext(), 2)
+        dataList = ArrayList()
+        imageAdapter = ImageAdapter(dataList) {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment(it))
 
+        }
+        recyclerView.adapter = imageAdapter
+        imageAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
+    fun horizontal() {
+        recyclerViewH = binding.recyclerViewH
+        recyclerViewH.setHasFixedSize(true)
+        recyclerViewH.layoutManager = LinearLayoutManager(getActivity()?.getApplicationContext(),RecyclerView.HORIZONTAL,false)
+        cardArrayList = ArrayList()
+        customAdapter = CustomAdapter(cardArrayList){
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment(it))
+        }
+        recyclerViewH.adapter = customAdapter
+        customAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
+    @SuppressLint("RestrictedApi", "NotifyDataSetChanged")
+    private fun getDataAllV() {
+        db = FirebaseFirestore.getInstance()
+        db.collection("MeditationsVert")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                }
+                dataList.clear()
+                val documents = result.documents
+                for (document in documents) {
+                    val id = document.getString("id")
+                    val name = document.getString("name")
+                    val subtitle = document.getString("subtitle")
+                    val desc = document.getString("desc")
+                    val image = document.getString("image")
+
+
+                    val data = DataModel(id, name, subtitle,desc,image)
+                    dataList.add(data)
+
+                }
+                imageAdapter.notifyDataSetChanged()
+
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+
+    }
+
+    @SuppressLint("RestrictedApi", "NotifyDataSetChanged")
+    private fun getDataAll() {
+        db = FirebaseFirestore.getInstance()
+        db.collection("Meditations")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                }
+                cardArrayList.clear()
+
+                val documents = result.documents
+                for (document in documents) {
+                    val id = document.getString("id")
+                    val name = document.getString("name")
+                    val subtitle = document.getString("subtitle")
+                    val desc = document.getString("desc")
+                    val image = document.getString("image")
+
+                    val data = DataModel(id, name, subtitle,desc,image)
+                    cardArrayList.add(data)
+                }
+                customAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+
+
+
+    }
+
+    fun callBack() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if(backPressed + 2000 > System.currentTimeMillis()) {
+                    exitProcess(-1)
+                }else {
+                    Toast.makeText(getActivity()?.getApplicationContext(), "Press back again to exit", Toast.LENGTH_SHORT).show()
+                }
+                backPressed = System.currentTimeMillis()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callback)
+
+    }
+
+
+
+
+
+    /*  fun Loading() {
+          val loading = LoadingDialog(requireActivity())
+          loading.startLoading()
+          val handler = Handler()
+          handler.postDelayed(object :Runnable{
+              override fun run() {
+                  loading.isDismiss()
+              }
+
+          },900)
+      }*/
+}
 

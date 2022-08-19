@@ -1,10 +1,16 @@
-package com.info.meisodeneme.model
+/*package com.info.meisodeneme.model
 
-class User(
-    val id: String? = " ",
-    val name: String = " ",
-    val surname: String = " ",
-    val email: String = " ",
-    val password : String = " "
-)
+import android.os.ParcelUuid
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
+
+@Parcelize
+data class User(
+    val uuid: String? = " " ,
+    val name: String? = " ",
+    val surname: String? = " ",
+    val email: String? = " "
+
+): Serializable, Parcelable*/

@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     tools:context=".view.OnboardingScreenFragment">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/onboardingViewPager"
         android:layout_width="match_parent"
         android:background="@drawable/view_pager_background"
-        android:padding="30dp"
         app:layout_constraintBottom_toTopOf="@id/button_start"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,29 +17,30 @@
         tools:ignore="MissingConstraints"
         android:layout_height="0dp"
         />
-
     <me.relex.circleindicator.CircleIndicator3
         android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/white"
         app:ci_drawable="@drawable/indicator_active"
-        android:layout_marginBottom="75dp"
-        android:paddingRight="220dp"
-        app:ci_drawable_unselected="@color/custom_color_indicator_empty"
+        android:paddingRight="260dp"
+        android:layout_marginBottom="59dp"
+        app:ci_drawable_unselected="@drawable/indicator_inactive"
         android:layout_alignParentBottom = "true"
-        app:layout_constraintBottom_toTopOf="@id/button_start"
+        app:layout_constraintBottom_toTopOf="@+id/button_start"
         tools:ignore="MissingConstraints" />
-
-
-
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_start"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/custom_color_background"
         android:drawableRight="@drawable/ic_right"
+        android:fontFamily="@font/poppins_semibold"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:paddingStart="30dp"

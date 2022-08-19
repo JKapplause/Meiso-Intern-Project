@@ -21,9 +21,13 @@
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#F00000</color>
     <color name="custom_color_background_homescreen_box">#4036A3</color>
-
     <color name="custom_color_back">#3C4D87</color>
 
     <color name="custom_transparent">#50000000</color>
+
+
     <color name="custom_bottom_media">#1f1f1f</color>
+    <color name="custom_helper_text">#CC0000</color>
+    <color name="custom_checkbox_color">#CF0C22</color>
+    
 </resources>
