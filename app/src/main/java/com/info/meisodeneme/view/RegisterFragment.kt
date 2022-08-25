@@ -2,6 +2,8 @@ package com.info.meisodeneme.view
 
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -34,6 +36,7 @@ import com.google.firebase.ktx.Firebase
 import com.info.meisodeneme.R
 import com.info.meisodeneme.databinding.FragmentRegisterBinding
 import kotlinx.android.synthetic.main.fragment_register.*
+import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -144,6 +147,7 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
 
         register_checkbox1_textView.text = spannableString
         register_checkbox1_textView.movementMethod = LinkMovementMethod.getInstance()
+
 
         // call check
         nameFocusListener()

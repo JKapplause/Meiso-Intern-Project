@@ -2,6 +2,8 @@ package com.info.meisodeneme.view
 
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -16,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
@@ -26,6 +29,7 @@ import com.info.meisodeneme.model.DataModel
 import com.info.meisodeneme.adapter.CustomAdapter
 import com.info.meisodeneme.adapter.ImageAdapter
 import com.info.meisodeneme.databinding.FragmentHomeBinding
+import kotlinx.android.synthetic.main.fragment_sign_in.*
 
 import kotlin.system.exitProcess
 
@@ -42,7 +46,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding
     private lateinit var db: FirebaseFirestore
     private var backPressed = 0L
-
+    lateinit var preference: SharedPreferences
+    var lastPosition : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +73,10 @@ class HomeFragment : Fragment() {
         logout_btn.setOnClickListener {
             if (logout_btn.isClickable) {
                 auth.signOut()
+                preference = this.requireActivity().getSharedPreferences("checkbox", Context.MODE_PRIVATE)
+                val editor = preference.edit()
+                editor.putString("remember","false")
+                editor.apply()
                 val action = HomeFragmentDirections.actionHomeFragmentToSliderFragment()
                 findNavController().navigate(action)
             }
@@ -106,6 +115,7 @@ class HomeFragment : Fragment() {
         }
         recyclerViewH.adapter = customAdapter
         customAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
     }
 
     @SuppressLint("RestrictedApi", "NotifyDataSetChanged")
