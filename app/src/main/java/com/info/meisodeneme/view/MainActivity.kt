@@ -1,9 +1,10 @@
-package com.info.meisodeneme
+package com.info.meisodeneme.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.info.meisodeneme.R
 
 
 class MainActivity : AppCompatActivity() {

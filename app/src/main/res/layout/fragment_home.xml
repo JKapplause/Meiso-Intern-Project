@@ -51,7 +51,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/vertical_title"
+
         app:layout_constraintTop_toBottomOf="@+id/meditations"
         >
 
@@ -85,22 +85,22 @@ Perfectly balanced. As all things should be."
             android:layout_marginEnd="23dp"
             >
         </androidx.appcompat.widget.AppCompatCheckedTextView>
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/vertical_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/horizontal_view"
-        android:text="Stories"
-        android:layout_marginTop="40dp"
-        android:textSize="24sp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginEnd="23dp"
-        android:layout_marginStart="23dp"
 
-        />
+        <TextView
+            android:id="@+id/vertical_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_view"
+            android:text="Stories"
+            android:layout_marginTop="40dp"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginEnd="23dp"
+            android:layout_marginStart="23dp"
+
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -114,5 +114,8 @@ Perfectly balanced. As all things should be."
             app:layout_constraintTop_toBottomOf="@id/vertical_title"
             >
         </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

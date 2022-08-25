@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MeisoDeneme">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true"
         >
             <intent-filter>

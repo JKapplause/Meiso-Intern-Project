@@ -15,11 +15,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.info.meisodeneme.R
 import com.info.meisodeneme.databinding.FragmentMeditationDetailBinding
-import com.info.meisodeneme.model.HomeViewModel
+import com.info.meisodeneme.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_meditation_detail.*
 import java.text.DateFormat
 import java.util.*
-import kotlin.system.exitProcess
 
 class MeditationDetailFragment : Fragment() {
 
