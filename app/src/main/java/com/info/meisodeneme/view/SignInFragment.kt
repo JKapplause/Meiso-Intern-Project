@@ -67,14 +67,35 @@ class SignInFragment : Fragment() {
         passwordFocusListener()
 
 
+
+        val remember = binding.signinCheckbox
+
         preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
         val checkbox : String = preference.getString("remember", "")!!
-        if(checkbox.equals("true")) {
-            val action =OnboardingScreenFragmentDirections.actionOnboardingScreenFragmentToSliderFragment()
+        if(checkbox == "true") {
+            val action =SliderFragmentDirections.actionSliderFragmentToHomeFragment()
             findNavController().navigate(action)
-        }else if(checkbox.equals("false")) {
-
+        }else if(checkbox == "false") {
+            makeText(getActivity()?.getApplicationContext(),"Please click remember me",Toast.LENGTH_SHORT).show()
         }
+
+        remember.setOnCheckedChangeListener { compoundButton, b ->
+            if(compoundButton.isChecked) {
+                preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
+                val editor = preference.edit()
+                editor.putString("remember","true")
+                editor.apply()
+                makeText(getActivity()?.getApplicationContext(),"checked",Toast.LENGTH_SHORT).show()
+        }else if(!compoundButton.isChecked){
+                preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
+                val editor = preference.edit()
+                editor.putString("remember","false")
+                editor.apply()
+                makeText(getActivity()?.getApplicationContext(),"unchecked",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
 
         val btn_signin = binding.signinButton
         btn_signin.setOnClickListener {
@@ -101,20 +122,6 @@ class SignInFragment : Fragment() {
                 binding.infoCheck.setText("Lütfen gerekli yerleri doldurun!")
                 showCustomToast()
             }
-        }
-    }
-    private fun onClick(){
-        val check = signin_checkbox.isChecked
-        if(check) {
-            preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
-            val editor = preference.edit()
-            editor.putString("remember","true")
-            editor.apply()
-        }else if(!check) {
-            preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
-            val editor = preference.edit()
-            editor.putString("remember","false")
-            editor.apply()
         }
     }
 
@@ -172,6 +179,8 @@ class SignInFragment : Fragment() {
 
 
 }
+
+
 
 
 

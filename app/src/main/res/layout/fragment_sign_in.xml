@@ -102,7 +102,6 @@
             android:layout_height="wrap_content"
             android:text="@string/beni_hat_rla"
             android:layout_marginTop="30dp"
-
             android:layout_marginEnd="309dp"
             android:layout_marginStart="40dp"
             app:layout_constraintStart_toStartOf="parent"
