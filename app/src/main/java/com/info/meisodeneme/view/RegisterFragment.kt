@@ -51,16 +51,9 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
     private var siteKey = "6Lejum4hAAAAAKR4RReLt5VfPiM0sxkgjyeFCIB5"
     private var isScrollContainer: Boolean? = null
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,14 +64,13 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
         return binding.root
     }
 
-
     // Google Recaptcha
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
 
-         googleApiClient = GoogleApiClient.Builder(requireActivity().getApplicationContext())
+        googleApiClient = GoogleApiClient.Builder(requireActivity().getApplicationContext())
             .addApi(SafetyNet.API)
             .addConnectionCallbacks(this)
             .build()
@@ -90,14 +82,16 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
             if(recaptcha.isChecked) {
                 SafetyNet.SafetyNetApi.verifyWithRecaptcha(googleApiClient,siteKey)
                     .setResultCallback(ResultCallback<SafetyNetApi.RecaptchaTokenResult>() {
-
                         fun onResult(@NonNull recaptchaTokenResult: SafetyNetApi.RecaptchaTokenResult ) {
                             val status : Status = recaptchaTokenResult.getStatus()
-                            status.isSuccess()
+                            if(status.isSuccess()) {
+                                Toast.makeText(requireActivity().getApplicationContext(),"Successfully Varifeid...", Toast.LENGTH_LONG).show()
 
-                            Toast.makeText(requireActivity().getApplicationContext(),"Successfully Varifeid...", Toast.LENGTH_LONG).show()
+                                recaptcha.setTextColor(Color.GREEN)
+                            }
 
-                            recaptcha.setTextColor(Color.GREEN)
+
+
                         }
 
                     })
@@ -157,12 +151,6 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
         passwordFocusListener()
         surnameFocusListener()
 
-        val last = auth.currentUser
-        if(last !=null) {
-            val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
-            findNavController().navigate(action)
-        }
-
 
         val signup_button = binding.signupButton
 
@@ -182,7 +170,6 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                            // saveUser(User(name))
-                            auth.currentUser?.email.toString()
                             val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
                             findNavController(it).navigate(action)
                         }
@@ -223,6 +210,7 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
        }
    }
 
+    @SuppressLint("SetTextI18n")
     private fun validName(): String? {
         val name = binding.signupNameET.text.toString()
             if(name.length < 3 ) {
@@ -246,6 +234,7 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun validSurName(): String? {
         val surname = binding.signupSurnameET.text.toString()
         if(surname.length < 3 ) {
@@ -272,6 +261,7 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun validPassword(): String? {
         val password = binding.signupPasswordET.text.toString()
         if (password.length < 6) {
@@ -308,7 +298,6 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
         }
         return null
     }
-
 
     // Recaptcha
     override fun onConnected(p0: Bundle?) {

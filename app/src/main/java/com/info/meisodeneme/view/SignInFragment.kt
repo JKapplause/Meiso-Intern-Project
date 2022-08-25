@@ -50,14 +50,15 @@ class SignInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-         preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
+       /*  preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
         val checkBox : Boolean = preference.getBoolean("checkbox", true)
         if (checkBox) {
             val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
             findNavController().navigate(action)
         } else if(!checkBox){
 
-        }
+        }*/
+
 
         auth = FirebaseAuth.getInstance()
 
@@ -65,22 +66,26 @@ class SignInFragment : Fragment() {
         emailFocusListener()
         passwordFocusListener()
 
+
+        preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
+        val checkbox : String = preference.getString("remember", "")!!
+        if(checkbox.equals("true")) {
+            val action =OnboardingScreenFragmentDirections.actionOnboardingScreenFragmentToSliderFragment()
+            findNavController().navigate(action)
+        }else if(checkbox.equals("false")) {
+
+        }
+
         val btn_signin = binding.signinButton
         btn_signin.setOnClickListener {
             val mail = signin_emailET.text.toString()
             val pass = signin_passwordET.text.toString()
-            val check = signin_checkbox.isChecked
-            if (mail.isNotEmpty() && pass.isNotEmpty() && check) {
+            if (mail.isNotEmpty() && pass.isNotEmpty()) {
                 auth.signInWithEmailAndPassword(
                     signin_emailET.text.toString(),
                     signin_passwordET.text.toString()
                 ).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-
-                        preference = this.requireActivity().getSharedPreferences("SignInFragment",Context.MODE_PRIVATE)
-                        val editor = preference.edit()
-                        editor.putBoolean("checkbox",true)
-                        editor.apply()
                       //  auth.currentUser?.email.toString()
                         val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
                         findNavController(it).navigate(action)
@@ -92,37 +97,25 @@ class SignInFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-            } else if(mail.isNotEmpty() && pass.isNotEmpty() && !check) {
-                auth.signInWithEmailAndPassword(
-                    signin_emailET.text.toString(),
-                    signin_passwordET.text.toString()
-                ).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-
-                        preference = this.requireActivity().getSharedPreferences("SignInFragment",Context.MODE_PRIVATE)
-                        val editor = preference.edit()
-                        editor.putBoolean("checkbox",false)
-                        editor.apply()
-                        //  auth.currentUser?.email.toString()
-                        val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
-                        findNavController(it).navigate(action)
-                    }
-                }
-
-
-            } else if (mail.isEmpty() || pass.isEmpty()) {
+            }else if (mail.isEmpty() || pass.isEmpty()) {
                 binding.infoCheck.setText("Lütfen gerekli yerleri doldurun!")
                 showCustomToast()
             }
         }
-
-
-        /* preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
-        val remember : Boolean = preference.getBoolean("remember", false)
-        if (remember.equals("true")) {
-            val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
-            findNavController().navigate(action)
-        }*/
+    }
+    private fun onClick(){
+        val check = signin_checkbox.isChecked
+        if(check) {
+            preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
+            val editor = preference.edit()
+            editor.putString("remember","true")
+            editor.apply()
+        }else if(!check) {
+            preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
+            val editor = preference.edit()
+            editor.putString("remember","false")
+            editor.apply()
+        }
     }
 
     private fun showCustomToast() {
