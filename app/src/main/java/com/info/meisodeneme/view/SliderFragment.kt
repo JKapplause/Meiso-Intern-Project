@@ -1,22 +1,31 @@
 package com.info.meisodeneme.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.info.meisodeneme.R
 import com.info.meisodeneme.adapter.ViewPagerAdapter
+import com.info.meisodeneme.databinding.FragmentSignInBinding
+import com.info.meisodeneme.databinding.FragmentSliderBinding
+import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlinx.android.synthetic.main.fragment_slider.*
 import kotlin.system.exitProcess
 
 class SliderFragment : Fragment() {
 
     private var backPressed = 0L
+    private var _binding: FragmentSliderBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +37,8 @@ class SliderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_slider, container, false)
+        _binding = FragmentSliderBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +51,8 @@ class SliderFragment : Fragment() {
    private fun setUpTabBar() {
     // call back press
        callBack()
+
+
 
 
         val adapter = ViewPagerAdapter(this,tab_layout.tabCount)

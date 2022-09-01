@@ -12,8 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.NonNull
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.TAG
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,13 +31,14 @@ import com.info.meisodeneme.model.DataModel
 import com.info.meisodeneme.adapter.CustomAdapter
 import com.info.meisodeneme.adapter.ImageAdapter
 import com.info.meisodeneme.databinding.FragmentHomeBinding
+import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
 import kotlin.system.exitProcess
 
 class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
-
+    private  var registerFragment : RegisterFragment ?= null
     private lateinit var recyclerView: RecyclerView
     private lateinit var imageAdapter: ImageAdapter
     private var dataList :ArrayList<DataModel> = ArrayList()
@@ -47,7 +50,7 @@ class HomeFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private var backPressed = 0L
     lateinit var preference: SharedPreferences
-    var lastPosition : Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +59,21 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
+
+
+
     }
 
+    @SuppressLint("SetTextI18n", "ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        auth = Firebase.auth
+        db = Firebase.firestore
         //Progressbar
         //Loading()
         // back press iyileştirilebilir
@@ -81,16 +91,25 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
-        auth = Firebase.auth
-        db = Firebase.firestore
-
         getDataAll()
         horizontal()
-
         getDataAllV()
         vertical()
-
     }
+
+   /* fun Loading() {
+        val loading = LoadingDialog(requireActivity())
+        loading.startLoading()
+        val handler = Handler()
+        handler.postDelayed(object :Runnable{
+            override fun run() {
+                loading.isDismiss()
+            }
+
+        },5000)
+    }*/
+
+
 
     fun vertical() {
         recyclerView = binding.recyclerView
@@ -99,7 +118,6 @@ class HomeFragment : Fragment() {
         dataList = ArrayList()
         imageAdapter = ImageAdapter(dataList) {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMediaDetailFragment(it))
-
         }
         recyclerView.adapter = imageAdapter
         imageAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -197,20 +215,5 @@ class HomeFragment : Fragment() {
 
     }
 
-
-
-
-
-    /*  fun Loading() {
-          val loading = LoadingDialog(requireActivity())
-          loading.startLoading()
-          val handler = Handler()
-          handler.postDelayed(object :Runnable{
-              override fun run() {
-                  loading.isDismiss()
-              }
-
-          },900)
-      }*/
 }
 

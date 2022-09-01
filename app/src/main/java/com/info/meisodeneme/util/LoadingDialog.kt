@@ -2,6 +2,8 @@
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import com.info.meisodeneme.R
 
 class LoadingDialog(val mActivity : Activity) {
@@ -16,6 +18,10 @@ class LoadingDialog(val mActivity : Activity) {
         bulider.setCancelable(false)
         isdialog = bulider.create()
         isdialog.show()
+        isdialog.window?.setLayout(1000, 1500)
+
+
+
     }
     fun isDismiss(){
         isdialog.dismiss()

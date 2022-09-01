@@ -15,13 +15,13 @@ import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.util.Patterns
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.GoogleApiClient
@@ -30,22 +30,16 @@ import com.google.android.gms.common.api.Status
 import com.google.android.gms.safetynet.SafetyNet
 import com.google.android.gms.safetynet.SafetyNetApi
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.auth.User
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.info.meisodeneme.R
 import com.info.meisodeneme.databinding.FragmentRegisterBinding
 import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
 
     private lateinit var auth: FirebaseAuth
+    private var signInFragment: SignInFragment ?= null
+    lateinit var preference: SharedPreferences
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
   //  private val userCollectionRef = Firebase.firestore.collection("users")
@@ -68,7 +62,7 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
     }
 
     // Google Recaptcha
-    @SuppressLint("RestrictedApi")
+    @SuppressLint("RestrictedApi", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
@@ -85,18 +79,14 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
             if(recaptcha.isChecked) {
                 SafetyNet.SafetyNetApi.verifyWithRecaptcha(googleApiClient,siteKey)
                     .setResultCallback(ResultCallback<SafetyNetApi.RecaptchaTokenResult>() {
-                        fun onResult(@NonNull recaptchaTokenResult: SafetyNetApi.RecaptchaTokenResult ) {
+                        fun onResult(recaptchaTokenResult: SafetyNetApi.RecaptchaTokenResult ) {
                             val status : Status = recaptchaTokenResult.getStatus()
                             if(status.isSuccess()) {
                                 Toast.makeText(requireActivity().getApplicationContext(),"Successfully Varifeid...", Toast.LENGTH_LONG).show()
 
                                 recaptcha.setTextColor(Color.GREEN)
                             }
-
-
-
                         }
-
                     })
             }else {
                 recaptcha.setTextColor(Color.BLACK)
@@ -156,10 +146,47 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
         surnameFocusListener()
 
 
+
+        val remember = signInFragment?.signin_checkbox
+        preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
+        val checkbox : String = preference.getString("remember", "")!!
+        if(checkbox == "true") {
+            val action =SliderFragmentDirections.actionSliderFragmentToHomeFragment()
+            findNavController().navigate(action)
+        }else if(checkbox == "false") {
+
+        }
+
+        remember?.setOnCheckedChangeListener { compoundButton, b ->
+            if(compoundButton.isChecked) {
+                preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
+                val editor = preference.edit()
+                editor.putString("remember","true")
+                editor.apply()
+                Toast.makeText(
+                    getActivity()?.getApplicationContext(),
+                    "checked",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else if(!compoundButton.isChecked){
+                preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
+                val editor = preference.edit()
+                editor.putString("remember","false")
+                editor.apply()
+                Toast.makeText(
+                    getActivity()?.getApplicationContext(),
+                    "unchecked",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+
+
+
         val signup_button = binding.signupButton
 
         signup_button.setOnClickListener {
-
             val email = signup_mailET.text.toString()
             val password = signup_passwordET.text.toString()
             val name = signup_nameET.text.toString()
@@ -167,6 +194,7 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
            // val recaptcha = signup_recaptcha.isChecked
             val checkbox1 = register_checkbox1.isChecked
             val checkbox2 = register_checkbox2.isChecked
+
             if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && surname.isNotEmpty() && checkbox1 && checkbox2&& /*recaptcha &&*/
                     password.matches(".*[A-Z].*".toRegex()) && password.matches(".*[a-z].*".toRegex()) && password.matches(".*[0-9].*".toRegex())&&
                     surname.length >= 3 && name.length >= 3) {
@@ -185,11 +213,31 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
                         ).show()
                     }
 
-            } else if (!checkbox1 || !checkbox2 || email.isEmpty() || password.isEmpty() ||/* !recaptcha || */name.isEmpty() || surname.isEmpty()) {
-                 showCustomToast()
+            }else if(name.isEmpty()){
+                binding.infoCheck.setText("Ad boş bırakılamaz!")
+                showCustomToast()
             }
-        }
+            else if(surname.isEmpty()){
+                binding.infoCheck.setText("Soyad boş bırakılamaz")
+                showCustomToast()
+            } else if(email.isEmpty()){
+                binding.infoCheck.setText("Mail boş bırakılamaz")
+                showCustomToast()
+            }
+            else if(password.isEmpty()){
+                binding.infoCheck.setText("Şifre boş bırakılamaz")
+                showCustomToast()
+            }else if (!checkbox1) {
+                binding.infoCheck.setText("Sözleşmeleri imzalamanız gereklidir!")
+                showCustomToast()
+            }else if(!checkbox2){
+                binding.infoCheck.setText("Sözleşmeleri imzalamanız gereklidir!")
+                showCustomToast()
+            }
 
+
+        }
+        
     }
      private fun showCustomToast() {
          val ll = view?.findViewById<LinearLayout>(R.id.info_layout)
@@ -203,7 +251,6 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
 
              }
          }
-
 
 
    private fun nameFocusListener() {
@@ -226,7 +273,6 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
         }else {
                 binding.infoLayout.setVisibility(View.INVISIBLE)
         }
-
         return null
     }
 
@@ -261,7 +307,6 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
                 if (!focused) {
                     binding.signupPassword.prefixText = validPassword()
                 }
-
         }
     }
 
@@ -292,6 +337,7 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun validEmail(): String? {
         val emailText = binding.signupMailET.text.toString()
         if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
@@ -307,17 +353,10 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
     override fun onConnected(p0: Bundle?) {
 
     }
-
     override fun onConnectionSuspended(p0: Int) {
 
     }
-
-
-
 }
-
-
-
 
 /* private fun saveUser(user: User) = CoroutineScope(Dispatchers.IO).launch {
         try {
@@ -333,21 +372,6 @@ class RegisterFragment : Fragment(), GoogleApiClient.ConnectionCallbacks {
         }
     }
 */
-
-
-
-
-
-/*      val ll = view?.findViewById<LinearLayout>(R.id.info_layout)
-       val layout = layoutInflater.inflate(R.layout.custom_toast_message, ll)
-
- with(Toast(getActivity()?.getApplicationContext())) {
-               duration = Toast.LENGTH_LONG
-               setGravity(Gravity.TOP, 0, 0)
-               view = layout
-               show()
-      }
-  */
 
 
 
