@@ -1,28 +1,23 @@
 package com.info.meisodeneme.view
 
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Patterns
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import android.widget.Toast.makeText
-import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.info.meisodeneme.R
 import com.info.meisodeneme.databinding.FragmentSignInBinding
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
-import kotlin.system.exitProcess
 
 class SignInFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
@@ -46,19 +41,9 @@ class SignInFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-       /*  preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
-        val checkBox : Boolean = preference.getBoolean("checkbox", true)
-        if (checkBox) {
-            val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
-            findNavController().navigate(action)
-        } else if(!checkBox){
-
-        }*/
-
 
         auth = FirebaseAuth.getInstance()
 
@@ -66,10 +51,7 @@ class SignInFragment : Fragment() {
         emailFocusListener()
         passwordFocusListener()
 
-
-
         val remember = binding.signinCheckbox
-
         preference = this.requireActivity().getSharedPreferences("checkbox",Context.MODE_PRIVATE)
         val checkbox : String = preference.getString("remember", "")!!
         if(checkbox == "true") {
@@ -95,8 +77,6 @@ class SignInFragment : Fragment() {
             }
         }
 
-
-
         val btn_signin = binding.signinButton
         btn_signin.setOnClickListener {
             val mail = signin_emailET.text.toString()
@@ -107,7 +87,6 @@ class SignInFragment : Fragment() {
                     signin_passwordET.text.toString()
                 ).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                      //  auth.currentUser?.email.toString()
                         val action = SliderFragmentDirections.actionSliderFragmentToHomeFragment()
                         findNavController(it).navigate(action)
                     }
@@ -144,6 +123,7 @@ class SignInFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun validEmail(): String? {
         val emailText = binding.signinEmailET.text.toString()
         if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
@@ -164,6 +144,7 @@ class SignInFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun validPassword(): String? {
         val password = binding.signinPasswordET.text.toString()
         if (password.isEmpty()) {
@@ -172,12 +153,8 @@ class SignInFragment : Fragment() {
         }else {
             binding.infoLayout.setVisibility(View.INVISIBLE)
         }
-
         return null
     }
-
-
-
 }
 
 
