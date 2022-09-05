@@ -14,6 +14,7 @@ Uygulamada Kullanılan Kütüphane ve Yapılar
 <br>-Navigation!
 <h1>Uygulama Görselleri</h1>
 
+
 <img src="https://user-images.githubusercontent.com/44523590/188388430-ddc7f09e-1c4f-4cb7-9285-51050e3d0667.jpeg" width="360" height="720">
 <img src="https://user-images.githubusercontent.com/44523590/188388407-3c10671e-e9a1-4eab-b680-75ae119c48ed.jpeg" width="360" height="720">
 <img src="https://user-images.githubusercontent.com/44523590/188388434-41f83923-7859-4b90-8ed6-f5183fbefe8c.jpeg" width="360" height="720">
